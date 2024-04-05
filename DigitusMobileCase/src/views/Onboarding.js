@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
 
 
 class Onboarding extends Component {
-
+  
     constructor(props) {
         super(props);
     
@@ -16,21 +16,20 @@ class Onboarding extends Component {
           currentScreen: 'onboarding1',
         };
     }
-
     
     screenContent = {
         onboarding1: {
-          onboarding: require('../assets/onboarding1.png'),
+          onboarding: require('../assets/images/onboarding1.png'),
           heading: 'Enim ad minim',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis',
         },
         onboarding2: {
-          onboarding: require('../assets/onboarding2.png'),
+          onboarding: require('../assets/images/onboarding2.png'),
           heading: 'Enim ad minim',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis', 
         },
         onboarding3: {
-          onboarding: require('../assets/onboarding3.png'),
+          onboarding: require('../assets/images/onboarding3.png'),
           heading: 'Enim ad minim',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis',
         },
@@ -93,8 +92,8 @@ class Onboarding extends Component {
         const { onboarding, heading, text} = this.screenContent[currentScreen];
 
         return(
-            <View className=" bg-white items-center pt-20 h-full">
-              <Image source={require('../assets/logo.png')} />
+            <View className=" bg-white items-center py-12 justify-between h-full">
+              <Image source={require('../assets/images/logo.png')} />
               <Image className="" source={onboarding} style={{ width: 400, height: 400 }} />
               <Text className="text-2xl text-green-600 font-bold">{heading}</Text>
               <Text className="text-base text-justify px-16">{text}</Text>
