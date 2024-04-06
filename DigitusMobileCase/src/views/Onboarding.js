@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import { PanGestureHandler, GestureHandlerRootView , State} from 'react-native-gesture-handler';
 
 
 class Onboarding extends Component {
@@ -86,22 +87,43 @@ class Onboarding extends Component {
       );
     };
 
+    onGestureEvent = (event) => {
+      if (event.nativeEvent.translationX > 400) {
+        this.prevScreen();
+      } else if (event.nativeEvent.translationX < -200) {
+        this.nextScreen();
+      }
+    };
 
     render() {
         const {currentScreen} = this.state;
         const { onboarding, heading, text} = this.screenContent[currentScreen];
 
         return(
+          <GestureHandlerRootView style={{ flex: 1 }}>
             <View className=" bg-white items-center py-12 justify-between h-full">
               <Image source={require('../assets/images/logo.png')} />
-              <Image className="" source={onboarding} style={{ width: 400, height: 400 }} />
-              <Text className="text-2xl text-green-600 font-bold">{heading}</Text>
-              <Text className="text-base text-justify px-16">{text}</Text>
-              {this.renderPaginationDots()}
-              <TouchableOpacity style={{ marginTop: 20, backgroundColor: 'green', paddingVertical: 20, paddingHorizontal: 100, borderRadius: 50 }} onPress={this.nextScreen}>
-                <Text style={{ color: 'white', fontWeight: 'bold' }}>İleri</Text>
-              </TouchableOpacity>
+              <PanGestureHandler
+                onHandlerStateChange={({ nativeEvent }) => {
+                  if (nativeEvent.state === State.END && nativeEvent.translationX < -50) {
+                    this.nextScreen();
+                  } else if (nativeEvent.state === State.END && nativeEvent.translationX > 50) {
+                    this.prevScreen();
+                  }
+                }}
+                >
+                <View className="bg-white items-center py-12 justify-between h-full">
+                  <Image className="" source={onboarding} style={{ width: 400, height: 400 }} />
+                  <Text className="text-2xl text-green-600 font-bold">{heading}</Text>
+                  <Text className="text-base text-justify px-16">{text}</Text>
+                  {this.renderPaginationDots()}
+                  <TouchableOpacity style={{ marginTop: 20, backgroundColor: 'green', paddingVertical: 20, paddingHorizontal: 100, borderRadius: 50 }} onPress={this.nextScreen}>
+                    <Text style={{ color: 'white', fontWeight: 'bold' }}>İleri</Text>
+                  </TouchableOpacity>
+                </View>
+            </PanGestureHandler>
           </View>
+        </GestureHandlerRootView>
         );
     }
     
