@@ -15,26 +15,28 @@ import Person from '../assets/icons/person.svg';
 import Like from '../assets/icons/like.svg';
 import Calendar from '../assets/icons/calendar.svg';
 import  { TapGestureHandler, State, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { getHomeData } from '../services/HomeService.js';
 
 
 class Home extends Component {
   state = {
     refreshing: false,
-    data: {
-      stories: [
-        { image: require('../assets/images/stories1.png'), title: 'Günün Menüsü' },
-        { image: require('../assets/images/stories2.png'), title: 'Bayram Kutlaması' },
-        { image: require('../assets/images/stories3.png'), title: 'Digitus Anket' },
-        { image: require('../assets/images/stories4.png'), title: 'Duyuru ve Genelgeler' },
-        { image: require('../assets/images/stories5.png'), title: 'Bugün Doğanlar' },
-        { image: require('../assets/images/stories6.png'), title: 'Aramıza Katılanlar' },
-      ],
-      cards: [
-        { type: 'video', content: require('../assets/videoexample.mp4'), title: 'Emin ad Minim', date: '2020-05-22', likes: 502, tag: 'Duis Aute', isLiked: true, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' },
-        { type: 'picture', content: require('../assets/images/cardimage1.png'), title: 'Emin ad Minim', date: '2020-05-21', likes: 1058, tag: 'Duis Aute', isLiked: false, description:   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' },
-      ],
-    },
+    data: { stories: [], cards: []},
   };
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData = async () => {
+    try {
+      const data = await getHomeData();
+      this.setState({ data });
+    } catch (error) {
+      console.error('Error fetching data from API:', error);
+    }
+  };
+
   handleRefresh = () => {
     this.setState({ refreshing: true });
     setTimeout(() => {
@@ -80,7 +82,7 @@ class Home extends Component {
       {this.state.data.stories.map((item, index) => (
           <View className=" items-center">
               <TouchableOpacity key={index} onPress={this.handleAlert}>
-              <View key={index} className="rounded-full border-2 border-[#64B48E] overflow-hidden mx-2">
+              <View className="rounded-full border-2 border-[#64B48E] overflow-hidden mx-2">
                 <Image source={item.image} className="w-16 h-16 rounded-full" />
               </View>
             </TouchableOpacity>
@@ -106,7 +108,7 @@ class Home extends Component {
                   }
                 }}
               >
-                <View className="bg-white mb-4 w-full rounded-lg shadow-md flex justify-center items-center">
+                <View className="bg-white mb-4 w-full rounded-lg flex justify-center items-center">
                   
                   {item.type === 'video' && (
                     <Video source={item.content}  resizeMode="cover"  shouldPlay isLooping isMuted={true} useNativeControls={false} onError={(error) => console.log('Video error:', error)} className="w-full h-64"/>
@@ -154,7 +156,7 @@ class Home extends Component {
               />
             }
           >
-            <View className="py-4 border-b border-gray-300 shadow-2xl">
+            <View className="py-4 border-b border-gray-300">
               {this.stories()}
             </View>
             <View className="py-2">
