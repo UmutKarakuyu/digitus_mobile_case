@@ -21,16 +21,12 @@ class Home extends Component {
     refreshing: false,
     data: {
       stories: [
-        { image: require('../assets/images/onboarding1.png'), title: 'Günün Menüsü' },
-        { image: require('../assets/images/onboarding2.png'), title: 'Bayram Kutlaması' },
-        { image: require('../assets/images/onboarding1.png'), title: 'Günün Menüsü' },
-        { image: require('../assets/images/onboarding2.png'), title: 'Bayram Kutlaması' },
-        { image: require('../assets/images/onboarding1.png'), title: 'Günün Menüsü' },
-        { image: require('../assets/images/onboarding2.png'), title: 'Bayram Kutlaması' },
-        { image: require('../assets/images/onboarding1.png'), title: 'Günün Menüsü' },
-        { image: require('../assets/images/onboarding2.png'), title: 'Bayram Kutlaması' },
-        { image: require('../assets/images/onboarding1.png'), title: 'Günün Menüsü' },
-        { image: require('../assets/images/onboarding2.png'), title: 'Bayram Kutlaması' },
+        { image: require('../assets/images/stories1.png'), title: 'Günün Menüsü' },
+        { image: require('../assets/images/stories2.png'), title: 'Bayram Kutlaması' },
+        { image: require('../assets/images/stories3.png'), title: 'Digitus Anket' },
+        { image: require('../assets/images/stories4.png'), title: 'Duyuru ve Genelgeler' },
+        { image: require('../assets/images/stories5.png'), title: 'Bugün Doğanlar' },
+        { image: require('../assets/images/stories6.png'), title: 'Aramıza Katılanlar' },
       ],
       cards: [
         { type: 'video', content: require('../assets/videoexample.mp4'), title: 'Emin ad Minim', date: '2020-05-22', likes: 502, tag: 'Duis Aute', isLiked: true, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' },
@@ -48,6 +44,8 @@ class Home extends Component {
   handleLikePress = (index) => {
     const newData = [...this.state.data.cards];
     newData[index].isLiked = !newData[index].isLiked;
+    newData[index].likes += newData[index].isLiked ? 1 : -1;
+
     this.setState({
       data: {
         ...this.state.data,
@@ -79,11 +77,14 @@ class Home extends Component {
     return (
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       {this.state.data.stories.map((item, index) => (
-          <TouchableOpacity key={index} onPress={this.handleAlert}>
-            <View key={index} className="rounded-full border-2 border-[#64B48E] overflow-hidden mx-2">
-              <Image source={item.image} className="w-16 h-16 rounded-full" />
-            </View>
-          </TouchableOpacity>
+          <View className=" items-center">
+              <TouchableOpacity key={index} onPress={this.handleAlert}>
+              <View key={index} className="rounded-full border-2 border-[#64B48E] overflow-hidden mx-2">
+                <Image source={item.image} className="w-16 h-16 rounded-full" />
+              </View>
+            </TouchableOpacity>
+            <Text className="text-sm font-slim whitespace-break-spaces w-20 text-center bg--400 pt-1 text-[#999EB9]">{item.title}</Text>
+          </View>
       ))}
       </ScrollView>
     );
@@ -98,7 +99,7 @@ class Home extends Component {
               <View className="bg-white mb-4 w-full rounded-lg shadow-md flex justify-center items-center">
                 
                 {item.type === 'video' && (
-                  <Video source={item.content}  resizeMode="cover"  shouldPlay isLooping isMuted useNativeControls onError={(error) => console.log('Video error:', error)} className="w-full h-64"/>
+                  <Video source={item.content}  resizeMode="cover"  shouldPlay isLooping isMuted={true} useNativeControls onError={(error) => console.log('Video error:', error)} className="w-full h-64"/>
                 )}
                 <TouchableOpacity key={index} onPress={() => navigation.navigate('CardDetail', { cardData: item })}>
                   
@@ -120,7 +121,7 @@ class Home extends Component {
                         </View>
                         <View className="flex flex-row justify-center items-center">
                           <Text className="text-xs text-red-500 ">{item.likes}</Text>
-                          <TouchableOpacity onPress={() => this.handleLikePress(index)}>
+                            <TouchableOpacity onPress={() => this.handleLikePress(index)}>
                             <Like width={24} height={24} fill={item.isLiked ? "#fb3c3c" : "#0000" } stroke={item.isLiked ? "none" : "#fb3c3c"} />
                           </TouchableOpacity>
                         </View>

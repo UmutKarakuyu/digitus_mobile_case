@@ -99,7 +99,7 @@ class Onboarding extends Component {
               <Text className="text-base text-justify px-16">{text}</Text>
               {this.renderPaginationDots()}
               <TouchableOpacity style={{ marginTop: 20, backgroundColor: 'green', paddingVertical: 20, paddingHorizontal: 100, borderRadius: 50 }} onPress={this.nextScreen}>
-                <Text style={{ color: 'white', fontWeight: 'bold' }}>Next</Text>
+                <Text style={{ color: 'white', fontWeight: 'bold' }}>İleri</Text>
               </TouchableOpacity>
           </View>
         );
