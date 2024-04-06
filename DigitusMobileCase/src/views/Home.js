@@ -7,7 +7,8 @@ import {
   Alert,
   Text,
   StatusBar,
-  RefreshControl
+  RefreshControl,
+  Platform,
 } from 'react-native';
 import {Video} from 'expo-av';
 import Search from '../assets/icons/search.svg';
@@ -38,6 +39,7 @@ class Home extends Component {
   };
 
   handleRefresh = () => {
+    // fake refreshing
     this.setState({ refreshing: true });
     setTimeout(() => {
       this.setState({ refreshing: false });
@@ -60,16 +62,18 @@ class Home extends Component {
     Alert.alert('Not Implemented', 'This feature is not yet implemented.');
   };
   customStatusBar = () => {
+    const isIOS = Platform.OS === 'ios';
     return (
-        <View className="flex flex-row justify-between items-center bg-white h-fill pt-8 px-4 border-b border-gray-300 border-opacity-0 ">
-          <StatusBar backgroundColor="#fff" />
-        <TouchableOpacity onPress={this.handleAlert}>
-          <Search width={32} height={32} />
-        </TouchableOpacity>
-        <Image source={require('../assets/images/logo.png')} />
-        <TouchableOpacity onPress={this.handleAlert}>
-          <Person width={32} height={32} />
-        </TouchableOpacity>
+      
+        <View className="flex flex-row justify-between items-center bg-white h-fill px-4 pt-6 drop-shadow-2xl border-b border-thin border-[#EAEBEF] ">
+          {isIOS && <StatusBar backgroundColor="#fff"/>}
+          <TouchableOpacity onPress={this.handleAlert}>
+            <Search width={32} height={32} />
+          </TouchableOpacity>
+          <Image source={require('../assets/images/logo.png')} />
+          <TouchableOpacity onPress={this.handleAlert}>
+            <Person width={32} height={32} />
+          </TouchableOpacity>
         </View>
     );
   };
@@ -86,7 +90,7 @@ class Home extends Component {
                 <Image source={item.image} className="w-16 h-16 rounded-full" />
               </View>
             </TouchableOpacity>
-            <Text className="text-sm font-slim whitespace-break-spaces w-20 text-center bg--400 pt-1 text-[#999EB9]">{item.title}</Text>
+            <Text className="text-sm font-slim whitespace-break-spaces w-20 text-center pt-1 text-[#999EB9]">{item.title}</Text>
           </View>
       ))}
       </ScrollView>
@@ -97,49 +101,49 @@ class Home extends Component {
     const { navigation } = this.props;
 
     return this.state.data.cards.map((item, index) => (   
-          
-            <View className="w-full flex justify-center items-center p-4">
-              <TapGestureHandler
-                ref={this.doubleTapRef}
-                numberOfTaps={2}
-                onHandlerStateChange={({ nativeEvent }) => {
-                  if (nativeEvent.state === State.ACTIVE) {
-                    this.handleLikePress(index);
+      <View className="w-full flex justify-center items-center p-4">
+        <View className="bg-white mb-4 w-full rounded-lg flex justify-center items-center drop-shadow-2xl">
+            
+            <TapGestureHandler
+              ref={this.doubleTapRef}
+              numberOfTaps={2}
+              onHandlerStateChange={({ nativeEvent }) => {
+                if (nativeEvent.state === State.ACTIVE) {
+                  this.handleLikePress(index);
                   }
-                }}
-              >
-                <View className="bg-white mb-4 w-full rounded-lg flex justify-center items-center">
-                  
-                  {item.type === 'video' && (
-                    <Video source={item.content}  resizeMode="cover"  shouldPlay isLooping isMuted={true} useNativeControls={false} onError={(error) => console.log('Video error:', error)} className="w-full h-64"/>
-                  )}
-                  {item.type === 'picture' && (
-                    <Image source={item.content} className="w-full min-h-fit rounded-md " />
-                  )}
-                  <TouchableOpacity key={index} onPress={() => navigation.navigate('CardDetail', { cardData: item })}>
-                      <View className="flex pt-2 px-4">
-                        <Text className="text-xl text-[#64B48E] font-bold mb-2">{item.title}</Text>
-                      </View>
-                      <View  className=" flex flex-row justify-around  w-full p-2">
-                          <View className="rounded-full border-2 border-gray-300 flex justify-center items-center px-8">
-                            <Text className="text-sm font-bold text-[#64B48E]">{item.tag}</Text>
-                          </View>
-                          <View className="flex flex-row justify-center items-center space-x-1">
-                            <Calendar width={24} height={24} />
-                            <Text className="text-sm text-gray-500 ">{item.date}</Text>
-                          </View>
-                          <View className="flex flex-row justify-center items-center">
-                            <Text className="text-xs text-red-500 ">{item.likes}</Text>
-                              <TouchableOpacity onPress={() => this.handleLikePress(index)}>
-                              <Like width={24} height={24} fill={item.isLiked ? "#fb3c3c" : "#0000" } stroke={item.isLiked ? "none" : "#fb3c3c"} />
-                            </TouchableOpacity>
-                          </View>
-                      </View>
+                }}>
+              <View className="bg-white mb-4 w-full rounded-lg flex justify-center items-center rounded-t-1">
+                {item.type === 'video' && (
+                  <Video source={item.content}  resizeMode="cover"  shouldPlay isLooping isMuted={true} useNativeControls={false} onError={(error) => console.log('Video error:', error)} className="w-full h-64"/>
+                )}
+                {item.type === 'picture' && (
+                  <Image source={item.content} className="w-full min-h-fit rounded-md " />
+                )}
+              </View>
+            </TapGestureHandler>
+            <TouchableOpacity key={index} onPress={() => navigation.navigate('CardDetail', { cardData: item })}>
+              <View className="flex pt-2 px-4">
+                <Text className="text-xl text-[#64B48E] font-bold mb-2">{item.title}</Text>
+              </View>
+              <View  className=" flex flex-row justify-around  w-full p-2">
+                <View className="rounded-full border-2 border-gray-300 flex justify-center items-center px-8">
+                  <Text className="text-sm font-bold text-[#64B48E]">{item.tag}</Text>
+                </View>
+                <View className="flex flex-row justify-center items-center space-x-1">
+                  <Calendar width={24} height={24} />
+                  <Text className="text-sm text-gray-500 ">{item.date}</Text>
+                </View>
+                <View className="flex flex-row justify-center items-center">
+                  <Text className="text-xs text-red-500 ">{item.likes}</Text>
+                    <TouchableOpacity onPress={() => this.handleLikePress(index)}>
+                    <Like width={24} height={24} fill={item.isLiked ? "#fb3c3c" : "#0000" } stroke={item.isLiked ? "none" : "#fb3c3c"} />
                   </TouchableOpacity>
                 </View>
-              </TapGestureHandler>
-            </View>
-        ));
+              </View>
+            </TouchableOpacity>
+          </View>
+      </View>
+    ));
   }
   
   render() {
@@ -156,10 +160,10 @@ class Home extends Component {
               />
             }
           >
-            <View className="py-4 border-b border-gray-300">
+            <View className="py-4 drop-shadow-xl border-gray-300 bg-white">
               {this.stories()}
             </View>
-            <View className="py-2">
+            <View className="py-2 bg-[#EAEBEF]">
               {this.cards()}
             </View>
           </ScrollView>

@@ -113,7 +113,7 @@ class Onboarding extends Component {
                 }}
                 >
                 <View className="bg-white items-center py-12 justify-between h-full">
-                  <Image className="" source={onboarding} style={{ width: 400, height: 400 }} />
+                  <Image className="" source={onboarding} style={{ width: 400, height: 300 }} />
                   <Text className="text-2xl text-green-600 font-bold">{heading}</Text>
                   <Text className="text-base text-justify px-16">{text}</Text>
                   {this.renderPaginationDots()}

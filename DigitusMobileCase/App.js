@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { Image, Platform } from 'react-native';
 import {NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -38,10 +38,10 @@ const App = () => {
 const MainNavigator = ({ navigation, route }) => {
   return (
     <Tab.Navigator
-    barStyle={{position: 'absolute', height: 80, backgroundColor: '#ffffff',}}
+    barStyle={{position: 'absolute', height: Platform.OS === 'ios' ? 80 : 60, backgroundColor: '#ffffff',}}
     activeIndicatorStyle={{backgroundColor: '#64B48E',
       width: 100, 
-      height: 60,
+      height: Platform.OS === 'ios' ? 60 : 90,
       borderRadius: 4,
    }}
 
