@@ -65,7 +65,7 @@ class Home extends Component {
     const isIOS = Platform.OS === 'ios';
     return (
       
-        <View className="flex flex-row justify-between items-center bg-white h-fill px-4 pt-6 drop-shadow-2xl border-b border-thin border-[#EAEBEF] ">
+        <View className="flex flex-row justify-between items-center bg-white h-fill px-4 pt-10 drop-shadow-2xl border-b border-thin border-[#EAEBEF] " >
           {isIOS && <StatusBar backgroundColor="#fff"/>}
           <TouchableOpacity onPress={this.handleAlert}>
             <Search width={32} height={32} />
@@ -84,8 +84,8 @@ class Home extends Component {
     return (
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       {this.state.data.stories.map((item, index) => (
-          <View className=" items-center">
-              <TouchableOpacity key={index} onPress={this.handleAlert}>
+          <View className=" items-center" key={index}>
+              <TouchableOpacity  onPress={this.handleAlert}>
               <View className="rounded-full border-2 border-[#64B48E] overflow-hidden mx-2">
                 <Image source={item.image} className="w-16 h-16 rounded-full" />
               </View>
@@ -101,7 +101,7 @@ class Home extends Component {
     const { navigation } = this.props;
 
     return this.state.data.cards.map((item, index) => (   
-      <View className="w-full flex justify-center items-center p-4">
+      <View className="w-full flex justify-center items-center p-4 "  key={index}>
         <View className="bg-white mb-4 w-full rounded-lg flex justify-center items-center drop-shadow-2xl">
             
             <TapGestureHandler
@@ -121,7 +121,7 @@ class Home extends Component {
                 )}
               </View>
             </TapGestureHandler>
-            <TouchableOpacity key={index} onPress={() => navigation.navigate('CardDetail', { cardData: item })}>
+            <TouchableOpacity onPress={() => navigation.navigate('CardDetail', { cardData: item })}>
               <View className="flex pt-2 px-4">
                 <Text className="text-xl text-[#64B48E] font-bold mb-2">{item.title}</Text>
               </View>

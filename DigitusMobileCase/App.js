@@ -50,9 +50,7 @@ const MainNavigator = ({ navigation, route }) => {
         name="HomeStackScreen"
         component={HomeStackScreen}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <HomeIcon width={24} height={24} stroke={focused ? "white" : "none"}/>
-          ),
+          tabBarIcon: ({ focused }) => <HomeIcon width={24} height={24} stroke={focused ? "white" : "none"}/>,
           tabBarLabel: () => null, 
         }}
         activeColor="black"
@@ -62,9 +60,7 @@ const MainNavigator = ({ navigation, route }) => {
         name="Catalog"
         component={Catalog}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <CatalogIcon width={24} height={24} stroke={focused ? "white" : "none"}/>
-          ),
+          tabBarIcon: ({ focused }) =>  <CatalogIcon width={24} height={24} stroke={focused ? "white" : "none"}/>,
           tabBarLabel: () => null, 
         }}
       />
@@ -72,9 +68,9 @@ const MainNavigator = ({ navigation, route }) => {
           name="People"
           component={People}
           options={{
-            tabBarIcon: ({ focused }) => (
-              <PeopleIcon width={24} height={24} stroke={focused ? "white" : "none"} />
-            ),
+            tabBarIcon: ({ focused }) => 
+              <PeopleIcon width={24} height={24} stroke={focused ? "white" : "none"} />,
+            
             tabBarLabel: () => null, 
           }}
         />
@@ -83,9 +79,9 @@ const MainNavigator = ({ navigation, route }) => {
         component={Notifications}
         options={{
           tabBarBadge: 3,
-          tabBarIcon: ({ focused }) => (
-            <NotificationsIcon width={24} height={24} stroke={focused ? "white" : "none"} o/>
-          ),
+          tabBarIcon: ({ focused }) => 
+            <NotificationsIcon width={24} height={24} stroke={focused ? "white" : "none"} />,
+          
           tabBarLabel: () => null, 
         }}
       />
@@ -93,9 +89,9 @@ const MainNavigator = ({ navigation, route }) => {
         name="Menu"
         component={Menu}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <MenuIcon width={24} height={24} stroke={focused ? "white" : "none"} />
-          ),
+          tabBarIcon: ({ focused }) => 
+            <MenuIcon width={24} height={24} stroke={focused ? "white" : "none"} />,
+          
           tabBarLabel: () => null, 
         }}
       />
@@ -107,12 +103,11 @@ const HomeStackScreen = () => {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
       <Stack.Screen name="CardDetail" component={CardDetail} options={{
-            headerTitle: () => (
-              <Image
+            headerTitle: () => <Image
                 source={require('./src/assets/images/logo.png')}
                 style={{ width: 100, height: 40 }}
               />
-            ),}} />
+            ,}} />
     </Stack.Navigator>
   );
 };

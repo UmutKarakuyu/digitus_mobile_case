@@ -4,13 +4,16 @@ import axios from 'axios';
 const API_URL = 'baseURL';
 
 const getHomeData = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/home`);
-    return response.data;
-  } catch (error) {
-    console.error('API_URL does not exist', error);
+  /*
+     try {
+      const response = await axios.get(`${API_URL}/home`);
+      return response.data;
+      } catch (error) {
+        console.error('API_URL does not exist', error);
+        return getDefaultData();
+      }
+    */
     return getDefaultData();
-  }
 };
 
 const getDefaultData = () => {
